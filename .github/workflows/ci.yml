@@ -27,7 +27,8 @@ jobs:
 
       - name: Run ramdisk
         run: |
-          sudo cargo run -p nbd-ramdisk --release &
+          sudo cargo build -p nbd-ramdisk --release
+          sudo target/release/nbd-ramdisk &
           sleep 5
       
       - name: Make a NBD device
