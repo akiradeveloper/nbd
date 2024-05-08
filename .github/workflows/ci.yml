@@ -33,3 +33,6 @@ jobs:
       
       - name: Make a NBD device
         run: sudo nbd-client localhost 10809 /dev/nbd0
+
+      - name: Test (badblocks)
+        run: sudo badblocks -wsv /dev/nbd0
