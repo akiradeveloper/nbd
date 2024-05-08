@@ -18,3 +18,12 @@ jobs:
         with:
           packages: cargo badblocks nbd-client
           version: 1.0
+
+      - name: Load nbd module
+        run: sudo modprobe nbd
+
+      - name: Run ramdisk
+        run: sudo cargo run -p nbd-ramdisk --release 
+      
+      - name: Make a NBD device
+        run: sudo nbd-client localhost 10809 /dev/nbd0
