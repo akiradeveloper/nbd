@@ -26,7 +26,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run ramdisk
-        run: sudo cargo run -p nbd-ramdisk --release &
+        run: |
+          sudo cargo run -p nbd-ramdisk --release &
+          sleep 5
       
       - name: Make a NBD device
-        run: sudo nbd-client 127.0.0.1 10809 /dev/nbd0
+        run: sudo nbd-client localhost 10809 /dev/nbd0
