@@ -16,5 +16,26 @@ jobs:
       - name: Install dependencies
         uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: cargo badblocks nbd-client
+          packages: cargo badblocks nbd-client ruby
           version: 1.0
+
+      - name: Load nbd module
+        run: sudo modprobe nbd
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ramdisk
+        run: |
+          sudo cargo build -p nbd-ramdisk --release
+          sudo target/release/nbd-ramdisk &
+          sleep 5
+      
+      - name: Make a NBD device
+        run: sudo nbd-client localhost 10809 /dev/nbd0
+
+      - name: Test (badblocks)
+        run: sudo badblocks -wsv /dev/nbd0
+
+      - name: Perf test
+        run: sudo ruby perf.rb /dev/nbd0
