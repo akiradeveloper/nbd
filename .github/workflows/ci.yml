@@ -22,6 +22,9 @@ jobs:
       - name: Load nbd module
         run: sudo modprobe nbd
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Run ramdisk
         run: sudo cargo run -p nbd-ramdisk --release 
       
