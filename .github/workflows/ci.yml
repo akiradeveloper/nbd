@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  run_tests:
+    name: Tests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install dependencies
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: cargo badblocks nbd-client
+          version: 1.0
